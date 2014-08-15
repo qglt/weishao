@@ -1,0 +1,441 @@
+#include <base/tcpproactor/TcpProactor.h>
+#include "anan_biz_impl.h"
+#include "file_sd_rec.h"
+#include "ft_mgr.h"
+#include <base/utility/bind2f/bind2f.hpp>
+#include "login.h"
+
+using namespace biz;
+
+file_sd_rec::file_sd_rec(anan_biz_impl* parent):client_(parent->bizClient_)
+	,m_quit( false )
+	, R_RUNNING(STOP_STATUS)
+	, S_RUNNING(STOP_STATUS)
+	, f(NULL)
+	, m_server(NULL)
+	, recvCount(0)
+	, sendCount(0)
+	,chunk_count(0)
+	,m_size(0)
+	,file_store_path("")
+{
+	set_parent_impl(parent);
+	get_parent_impl()->bizLogin_->_state_changed_.connect(boost::bind(&file_sd_rec::_StateChanged, this, _1, _2, _3));
+}
+
+file_sd_rec::~file_sd_rec()
+{
+	get_parent_impl()->bizLogin_->_state_changed_.disconnect(&file_sd_rec::_StateChanged);
+	
+	delete m_server;
+	delete f;
+	f = NULL;
+	m_server = NULL;
+}
+
+void file_sd_rec::get_user_decision(bool ack,std::string from_,std::string name, std::string sid,  long size)
+{
+	JID from(from_);
+	//线程切换
+	IN_TASK_THREAD_WORKx( file_sd_rec::get_user_decision, ack, from_, name,sid,size );
+	if (ack)
+	{
+		std::fstream* recvfile = new std::fstream();
+		name = file_store_path + name;
+		recvfile->open(name.c_str(), std::ios_base::out | std::ios_base::binary | std::ios_base::app);
+		rfilelist.insert(std::make_pair(sid, recvfile));
+
+		f->acceptFT( from, sid, SIProfileFT::FTTypeIBB );
+		recvCount++;
+
+		if (R_RUNNING != RUN_RECV)
+		{
+			R_RUNNING = RUN_RECV;
+			//启动线程接收文件
+			ft_mgr::instance().receive_file(bind2f(&file_sd_rec::loop_recv_file,this));
+		}
+	}
+	else
+	{
+		f->declineFT(from, sid,SIManager::RequestRejected,"just testing");
+		printf("rufused receive file");
+	}
+}
+//SIProfileFTHandler
+void file_sd_rec::handleFTRequest( const JID& from, const JID& to, const std::string& sid,
+	const std::string& name, long size, const std::string& hash,
+	const std::string& date, const std::string& mimetype,
+	const std::string& desc, int stypes )
+{
+// 	printf( "received ft request from %s: %s (%ld bytes, sid: %s). hash: %s, date: %s, mime-type: %s\n"
+// 		"desc: %s\n",
+// 		from.full().c_str(), name.c_str(), size, sid.c_str(), hash.c_str(), date.c_str(),
+// 		mimetype.c_str(), desc.c_str() );
+	//通知ui有文件传来
+	if(!answer_rec_cmd_.empty())
+	{
+		answer_rec_cmd_(from.full(),name,sid,size,bind2f(&file_sd_rec::get_user_decision,this,_1,from.full(),name,sid,size));
+	}
+}
+//
+void file_sd_rec::handleFTRequestError( const IQ& iq, const std::string& sid )
+{
+	printf( "ft request error\n" );
+	//对方拒绝接收文件 则删除文件流
+	FILELIST::iterator s_iter = sfilelist.find(sid);
+	if (s_iter != sfilelist.end())
+	{
+		s_iter->second->close();
+		delete s_iter->second;
+		sfilelist.erase(s_iter);
+	}
+	m_quit = true;
+	//增加一个通知 对方拒绝接收文件
+}
+//
+void file_sd_rec::handleFTBytestream( Bytestream* bs )
+{
+	//printf( "received bytestream of type: %s", bs->type() == Bytestream::S5B ? "s5b" : "ibb" );
+	if (isend(bs))//发送文件
+	{
+		//m_bs = bs;
+		bs_sendList.push_back(bs);
+	}
+	else//接收数据
+	{	
+		bs_recvList.push_back( bs );
+	}
+	bs->registerBytestreamDataHandler( this );
+
+	if( bs->connect() )
+	{
+		if( bs->type() == Bytestream::S5B )
+			printf( "ok! s5b connected to streamhost\n" );
+		else
+			printf( "ok! ibb sent request to remote entity\n" );
+	}
+}
+const std::string file_sd_rec::handleOOBRequestResult( const JID& from, const JID& to, const std::string& sid )
+{
+	return "";
+}
+
+//BytestreamDataHandler		
+void file_sd_rec::handleBytestreamData( Bytestream* bs, const std::string& data )
+{
+	//printf( "received %d bytes of data:\n%s\n", data.length(), data.c_str() );
+	//找到接收的文件并存盘
+	FILELIST::iterator iter = rfilelist.find(bs->sid());
+	iter->second->write(data.c_str(),data.length());
+}
+//
+void file_sd_rec::handleBytestreamError( Bytestream* bs, const IQ& iq )
+{
+	printf("data stream error \n");
+	handleBytestreamClose(bs);
+}
+//
+void file_sd_rec::handleBytestreamOpen( Bytestream* bs )
+{
+	printf("stream opend \n sid:%s\n",bs->sid().c_str());
+}
+
+//对方取消文件传输会进入这里 文件传输完成也会进这里
+void file_sd_rec::handleBytestreamClose( Bytestream* bs )
+{
+	printf("stream closed\n");
+	if (isend(bs))
+	{
+		sendCount = sendCount - 1;
+		if (sendCount <= 0) 
+		{
+			S_RUNNING = STOP_STATUS;
+		}
+		FILELIST::iterator s_iter = sfilelist.find(bs->sid());
+
+		if (s_iter != sfilelist.end())
+		{
+			(*s_iter).second->close();
+			delete (*s_iter).second;
+			sfilelist.erase(s_iter);
+		}
+		printf(" close send bs sid %s\n", bs->sid().c_str());
+		bs->removeBytestreamDataHandler();
+		if (bs)
+		{
+			bs->close();
+		}
+	}
+	else 
+	{
+		recvCount = recvCount - 1;
+		if (recvCount <= 0) 
+		{
+			R_RUNNING = STOP_STATUS;
+		}
+		FILELIST::iterator iter = rfilelist.find(bs->sid());
+		if (iter != rfilelist.end())
+		{
+			(*iter).second->close();
+			delete (*iter).second;
+			rfilelist.erase(iter);
+			printf(" close bs sid %s\n", bs->sid().c_str());
+		}
+		bs->removeBytestreamDataHandler();
+		if (bs)
+		{
+			bs->close();
+		}			
+	}
+	printf( "bytestream closed\n" );
+}
+//初始化发送服务器
+void file_sd_rec::init_sever()
+{
+	if (f == NULL)
+	{
+		f = new SIProfileFT( client_, this );
+		m_server = new SOCKS5BytestreamServer( client_->logInstance(), 6666 );
+		printf( "about to listen\n" );
+		ConnectionError le = ConnNoError;
+		//std::string s = client_->server();
+		if( ( le = m_server->listen() ) != ConnNoError )
+			printf( "listen returned: %d\n", le );
+		printf( "listening\n" );
+
+		f->registerSOCKS5BytestreamServer( m_server );
+		f->addStreamHost( client_->jid(), "127.0.0.1", 6666 );
+		f->addStreamHost( JID("proxy."+client_->server()), client_->server(), 7777 );//设置文件接收代理
+	}
+}
+
+void file_sd_rec::prepar_file(std::string to,std::string m_file)
+{
+	struct stat f_stat;
+	if( stat( m_file.c_str(), &f_stat ) )
+		printf("can not get file size!\n");
+	m_size = f_stat.st_size;
+	if (m_size%CHUNK_SIZE == 0)
+	{
+		chunk_count = m_size/CHUNK_SIZE;
+	}
+	else
+	{
+		chunk_count = m_size/CHUNK_SIZE +1;
+	}
+
+	std::fstream* ifile = new std::fstream();
+	ifile->open(m_file.c_str(), std::ios_base::in | std::ios_base::binary);
+	if( !ifile )
+	{
+		printf("can not open file!\n");
+	}
+	JID m_to(to);
+	std::string file_name = get_file_name(m_file);
+	const std::string sid = f->requestFT(m_to, file_name, m_size);
+	if (sid.empty())
+	{		
+		printf("can not get file sid!\n");
+		return;
+	}
+	sendCount++;
+	sfilelist.insert(std::make_pair(sid,ifile));
+
+	if (!sid.empty())
+	{	
+		if (S_RUNNING != RUN_SEND)
+		{
+			S_RUNNING = RUN_SEND;
+			ft_mgr::instance().send_file(bind2f(&file_sd_rec::loop_send_file, this));
+		}
+	}
+}
+//循环发送文件
+void file_sd_rec::loop_send_file()
+{
+	ConnectionError se = ConnNoError;
+	char input[CHUNK_SIZE];
+	while (S_RUNNING == RUN_SEND) 
+	{
+		if (m_quit)
+		{
+			S_RUNNING = STOP_STATUS;
+			break;
+		}
+		if (m_server)
+		{
+			se = m_server->recv(1);
+			if( se != ConnNoError )
+			{
+				printf( "SOCKS5BytestreamServer returned: %d\n", se );
+				m_quit = true;
+			}
+		}
+		if ( 0 == sendCount ) 
+		{
+			S_RUNNING = STOP_STATUS;
+			bs_sendList.clear();
+			printf("all send bytestream clear\n");
+			break;
+		}
+		std::list<Bytestream*>::iterator it = bs_sendList.begin();
+		//for (; it != bs_sendList.end(); ++it) 
+		while(it != bs_sendList.end())
+		{
+			FILELIST::iterator iter = sfilelist.find((*it)->sid());
+			std::fstream* sendfile = iter->second;
+			if ( !sendfile->eof())
+			{
+				if ((*it)->isOpen())
+				{
+					for (int i = 0;i<chunk_count;i++)// 文件过大分块发送
+					{
+						if (S_RUNNING == STOP_STATUS)
+						{
+							break;
+						}
+						else
+						{
+							sendfile->read(input, CHUNK_SIZE);
+							std::string content(input, sendfile->gcount());
+							if (!(*it)->send(content))
+							{
+								printf("file send shuld be return\n");
+							}
+							else
+							{
+								//告诉ui发送了多少字节
+								//(i+1)*CHUNK_SIZE
+							}
+						}
+					}
+				}
+				std::list<Bytestream*>::iterator it_tmp = it;
+				it++;
+				(*it_tmp)->recv(1);
+				f->dispose(*it_tmp);
+				bs_sendList.erase(it_tmp);
+				if (it == bs_sendList.end())
+				{
+					break;
+				}
+			} 
+			else
+			{
+				if ((*it))
+				{
+					(*it)->close();
+				}
+			}
+		}
+	}
+
+	printf("send thread leaving\n");
+	send_over_notify("file send over");
+}
+//循环接收文件
+void file_sd_rec::loop_recv_file()
+{
+	while (R_RUNNING == RUN_RECV)
+	{
+		if (recvCount == 0)
+		{
+			bs_recvList.clear();
+			R_RUNNING = STOP_STATUS;
+			printf("all bytestream clear \n");
+			break;
+		}
+		std::list < Bytestream * >::iterator it = bs_recvList.begin();
+		for (; it != bs_recvList.end(); ++it)
+		{
+			(*it)->recv(100);
+		}
+	}
+}
+
+bool file_sd_rec::isend( Bytestream* m_bs )
+{
+	std::string  s_jid  = get_parent_impl()->bizClient_->jid().bare();
+	if (s_jid == m_bs->initiator().bare())
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void file_sd_rec::local_cancle_ft( const std::string sid )
+{
+	//发送文件 取消操作
+	std::list < Bytestream* >::iterator itSend = bs_sendList.begin();
+	for(;itSend!=bs_sendList.end();itSend++)
+	{
+		if ((*itSend)->sid() == sid)
+		{
+			(*itSend)->close();
+			return;
+		}
+	}		
+	//取消接收文件操作
+	std::list < Bytestream* >::iterator itRecv = bs_recvList.begin();
+	for(;itRecv!=bs_recvList.end();itRecv++)
+	{
+		if ((*itRecv)->sid() == sid)
+		{			
+			(*itRecv)->close();			
+			return;
+		}
+	}
+}
+//获得文件发送进度
+std::string biz::file_sd_rec::get_sent_percent(long file_size,long sent_size )
+{
+	return"";
+}
+
+void biz::file_sd_rec::_StateChanged( Tlogin_state old_s,Tlogin_state new_s, Tlogin_error err )
+{
+	switch(new_s)
+	{
+	default:
+		break;
+	case els_connected:
+		get_parent_impl()->bizFileTranslater_->init_sever();
+		break;
+	}
+}
+
+void biz::file_sd_rec::set_file_store_path( std::string path )
+{
+	file_store_path = path;
+}
+
+// std::string file_sd_rec::get_file_name(std::string file_path)
+// {
+// 	char path_buffer[_MAX_PATH];
+// 	char drive[_MAX_DRIVE];
+// 	char dir[_MAX_DIR];
+// 	char fname[_MAX_FNAME];
+// 	char ext[_MAX_EXT];
+// 	errno_t err;
+// 	err = _splitpath_s( file_path.c_str(),
+// 		drive,_MAX_DRIVE,
+// 		dir,_MAX_DIR, 
+// 		fname,_MAX_FNAME, 
+// 		ext,_MAX_EXT );
+// 	std::string s = fname;
+// 	s += ext;
+// 	return s;
+// }
+
+std::string file_sd_rec::get_file_name(std::string file_path)
+{
+	int backslashIndex;
+	std::string filename;
+	backslashIndex = file_path.find_last_of('\\');
+	// 路径名尾部是文件名
+	filename = file_path.substr(backslashIndex+1,-1);
+	return filename;
+}

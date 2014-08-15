@@ -1,0 +1,5 @@
+﻿{
+    "whistle_mobile_crash":"http://whistle.ruijie.com.cn:1093/report/?module=crash",
+    "cloud_config_url":"http://172.16.56.173/api/im/get_config"
+
+}

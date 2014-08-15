@@ -1,0 +1,48 @@
+<!-- 发送消息通知 -->
+<iq id="s9Fg6-50" type="set" to="notification.ruijie.com.cn">
+	<query xmlns="http://ruijie.com.cn/notification">
+    <addresses identity="teacher|student|other">
+      <address name="清华大学" type="organization" identity="student" value="1" />
+		</addresses>
+		<notification>
+			<!-- 标题 -->
+			<title>停水通知</title>
+			<!-- 优先级:  0:  一般, 1: 重要 -->
+			<priority>important|normal</priority>
+			<!-- 到期日, 如果没有, 该项不应该有 -->
+			<expired_time>2012-08-30 18:00:00</expired_time>
+			<!-- 发布单位 -->
+      <signature>校教务处</signature>
+			<!-- 正文的纯文本内容 -->
+			<body>各位单位注意</body>
+			<!-- 带有格式的文本内容 -->
+			<html>
+			</html>
+		</notification>
+	</query>
+</iq>
+<!-- 获取消息通知 -->
+<message type="normal" from="notification.ruijie.com.cn" to="zhangsan@ruijie.com.cn">
+	<!-- 消息ID-->
+	<id xmlns="http://ruijie.com.cn/notification">5</id>
+	<!-- 标题 -->
+	<title>停水通知</title>
+  <!-- 优先级:  normal:  一般,  important: 重要 -->
+  <priority>normal</priority>
+	<!-- 到期日, 如果没有, 该项不应该有 -->
+	<expired_time>2012-08-30 18:00:00</expired_time>
+	<!-- 发布单位 -->
+  <signature>校教务处</signature>
+	<!-- 正文的纯文本内容 -->
+	<body>各位单位注意</body>
+	<!-- 带有格式的文本内容 -->
+	<html>
+	</html>
+</message>
+<!-- 设置消息通知报告 -->
+<iq id="s9Fg6-51" type="set" to="notification.ruijie.com.cn">
+	<query xmlns="http://ruijie.com.cn/notification#report">
+		<notification id="5" action="recv|read" />
+	</query>
+</iq>
+<iq id="s9Fg6-51" type="result" to="notification.ruijie.com.cn" />

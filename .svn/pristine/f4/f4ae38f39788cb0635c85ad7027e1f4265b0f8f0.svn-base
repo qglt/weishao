@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{621E84EF-9E60-4D36-BC44-7045F0A2F6F6}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>biz_lib</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(Configuration)\obj\</IntDir>
+    <LibraryPath>$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(Configuration)\obj\</IntDir>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+    <LibraryPath>$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WIN32_WINNT=0x0501;BOOST_FILESYSTEM_VERSION=2;CURL_STATICLIB;USE_WIN32_IDN;_SCL_SECURE_NO_WARNINGS;CLIENTBASE_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../../build/boost_1_49_0;../../;../gloox_async;../../../;../../../third_party/libcurl/include;../http/http_src;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0x0501;_SCL_SECURE_NO_WARNINGS;BOOST_FILESYSTEM_VERSION=2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../../build/boost_1_49_0;../../;../gloox_async;../../../;../../../third_party/libcurl/include;../http/http_src;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="biz_src\notice_msg.xml" />
+    <None Include="biz_src\organization.xml" />
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\third_party\sqlite\sqlite3.c" />
+    <ClCompile Include="..\..\base\cmd_factory\cmd_factory.cpp" />
+    <ClCompile Include="..\..\base\epiusdb\ep_sqlite.cpp" />
+    <ClCompile Include="..\..\base\module_path\create_dir_nofailed.cpp" />
+    <ClCompile Include="..\..\base\module_path\file_manager.cpp" />
+    <ClCompile Include="..\..\base\txtutil\txtutil.cpp" />
+    <ClCompile Include="..\..\base\universal_res\uni_res.cpp" />
+    <ClCompile Include="biz_src\agent.cpp" />
+    <ClCompile Include="biz_src\anan_config.cpp" />
+    <ClCompile Include="biz_src\anan_private.cpp" />
+    <ClCompile Include="biz_src\an_roster_manager.cpp" />
+    <ClCompile Include="biz_src\an_vcard.cpp" />
+    <ClCompile Include="biz_src\biz_lower.cpp" />
+    <ClCompile Include="biz_src\biz_message.cpp" />
+    <ClCompile Include="biz_src\biz_recent_contact.cpp" />
+    <ClCompile Include="biz_src\msg_extension.cpp" />
+    <ClCompile Include="biz_src\notice_msg.cpp" />
+    <ClCompile Include="biz_src\biz_presence.cpp" />
+    <ClCompile Include="biz_src\biz_sql.cpp" />
+    <ClCompile Include="biz_src\client_anan.cpp" />
+    <ClCompile Include="biz_src\conversation.cpp" />
+    <ClCompile Include="biz_src\biz_groups.cpp" />
+    <ClCompile Include="biz_src\conversation_impl.cpp" />
+    <ClCompile Include="biz_src\crowd_room.cpp" />
+    <ClCompile Include="biz_src\iq_filter.cpp" />
+    <ClCompile Include="biz_src\local_config.cpp" />
+    <ClCompile Include="biz_src\login.cpp" />
+    <ClCompile Include="biz_src\anan_biz.cpp" />
+    <ClCompile Include="biz_src\anan_biz_impl.cpp" />
+    <ClCompile Include="biz_src\sqlite_connections.cpp" />
+    <ClCompile Include="biz_src\wannianli.cpp" />
+    <ClInclude Include="..\..\base\cmd_factory\cmd_factory.h" />
+    <ClInclude Include="..\..\base\epiusdb\ep_sqlite.h" />
+    <ClInclude Include="..\..\base\module_path\create_dir_nofailed.h" />
+    <ClInclude Include="..\..\base\module_path\file_manager.h" />
+    <ClInclude Include="..\..\base\txtutil\txtutil.h" />
+    <ClInclude Include="..\..\base\universal_res\uni_res.h" />
+    <ClInclude Include="biz_src\anan_config.h" />
+    <ClInclude Include="biz_src\biz_adapter.h" />
+    <ClInclude Include="biz_src\biz_lower.h" />
+    <ClInclude Include="biz_src\login_error.h" />
+    <ClCompile Include="biz_src\message_event_filter.cpp" />
+    <ClCompile Include="biz_src\muc_room.cpp" />
+    <ClCompile Include="biz_src\notice_msg_ack.cpp" />
+    <ClCompile Include="biz_src\organization.cpp" />
+    <ClCompile Include="biz_src\pin_yin_dict.cpp" />
+    <ClCompile Include="biz_src\pubsub.cpp" />
+    <ClCompile Include="biz_src\user.cpp" />
+    <ClInclude Include="biz_src\anan_assert.h" />
+    <ClInclude Include="biz_src\anan_biz.h" />
+    <ClInclude Include="biz_src\anan_biz_bind.h" />
+    <ClInclude Include="biz_src\anan_biz_impl.h" />
+    <ClInclude Include="biz_src\anan_type.h" />
+    <ClInclude Include="biz_src\biz_app_settings.h" />
+    <ClInclude Include="biz_src\event_collection.h" />
+    <ClInclude Include="biz_src\sqlite_connections.h" />
+    <ClInclude Include="biz_src\wannianli.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\third_party\libcurl\include\curl\curl.h" />
+    <ClInclude Include="..\..\..\third_party\libcurl\include\curl\easy.h" />
+    <ClInclude Include="..\..\..\third_party\sqlite\sqlite3.h" />
+    <ClInclude Include="..\..\..\third_party\sqlite\sqlite3ext.h" />
+    <ClInclude Include="biz_src\agent.h" />
+    <ClInclude Include="biz_src\agent_impl.h" />
+    <ClInclude Include="biz_src\agent_type.h" />
+    <ClInclude Include="biz_src\anan_private.h" />
+    <ClInclude Include="biz_src\an_roster_manager.h" />
+    <ClInclude Include="biz_src\an_roster_manager_error.h" />
+    <ClInclude Include="biz_src\an_roster_manager_impl.h" />
+    <ClInclude Include="biz_src\an_roster_manager_type.h" />
+    <ClInclude Include="biz_src\an_vcard.h" />
+    <ClInclude Include="biz_src\an_vcard_type.h" />
+    <ClInclude Include="biz_src\biz_groups_error.h" />
+    <ClInclude Include="biz_src\biz_groups_impl.h" />
+    <ClInclude Include="biz_src\biz_groups_type.h" />
+    <ClInclude Include="biz_src\biz_message.h" />
+    <ClInclude Include="biz_src\biz_recent_contact.h" />
+    <ClInclude Include="biz_src\common.h" />
+    <ClInclude Include="biz_src\msg_extension.h" />
+    <ClInclude Include="biz_src\notice_msg.h" />
+    <ClInclude Include="biz_src\biz_presence.h" />
+    <ClInclude Include="biz_src\biz_presence_type.h" />
+    <ClInclude Include="biz_src\biz_sql.h" />
+    <ClInclude Include="biz_src\client_anan.h" />
+    <ClInclude Include="biz_src\conversation.h" />
+    <ClInclude Include="biz_src\conversation_impl.h" />
+    <ClInclude Include="biz_src\conversation_type.h" />
+    <ClInclude Include="biz_src\crowd_room.h" />
+    <ClInclude Include="biz_src\crowd_room_item.h" />
+    <ClInclude Include="biz_src\biz_groups.h" />
+    <ClInclude Include="biz_src\iq_filter.h" />
+    <ClInclude Include="biz_src\iq_tmp.h" />
+    <ClInclude Include="biz_src\local_config.h" />
+    <ClInclude Include="biz_src\local_config_impl.h" />
+    <ClInclude Include="biz_src\login.h" />
+    <ClInclude Include="biz_src\login_impl.h" />
+    <ClInclude Include="biz_src\login_type.h" />
+    <ClInclude Include="biz_src\message_event_filter.h" />
+    <ClInclude Include="biz_src\muc_room.h" />
+    <ClInclude Include="biz_src\muc_room_item.h" />
+    <ClInclude Include="biz_src\notice_msg_ack.h" />
+    <ClInclude Include="biz_src\notice_msg_impl.h" />
+    <ClInclude Include="biz_src\organization.h" />
+    <ClInclude Include="biz_src\organization_impl.h" />
+    <ClInclude Include="biz_src\pin_yin_dict.h" />
+    <ClInclude Include="biz_src\pin_yin_dict_impl.h" />
+    <ClInclude Include="biz_src\pubsub.h" />
+    <ClInclude Include="biz_src\pubsub_impl.h" />
+    <ClInclude Include="biz_src\pubsub_type.h" />
+    <ClInclude Include="biz_src\user.h" />
+    <ClInclude Include="biz_src\user_impl.h" />
+    <ClInclude Include="biz_src\user_type.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "__30-[RosterManager refreshRoster]_block_invoke:RosterManager.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[RosterManager rosterFinished:]:RosterManager.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "result">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[FriendsSectionInfo getAllFriendsSectionsAndDataDict]:FriendsSectionInfo.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ImRosterViewController onFriendInfoChanged:]:ImRosterViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[SystemMessageInfo isCrowdSystemMsg]:SystemMessageInfo.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "range">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[FriendsSectionInfo getSectionTitleArr]:FriendsSectionInfo.m">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

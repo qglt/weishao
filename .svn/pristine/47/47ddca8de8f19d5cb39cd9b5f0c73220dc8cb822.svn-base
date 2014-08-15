@@ -1,0 +1,19 @@
+{
+    "server":"172.16.3.82",
+    "domain":"anan.jabber",
+    "login_ui": {
+	    "start_page":"../../src/html/pages/Login/login.html",
+	    "default_size": {"x":340,"y":640},
+	    "min_size":{"x":340,"y":410},
+    },
+    "main_ui": {
+	    "main_ui_page":"../../src/html/pages/MainInterface/main.html",
+	    "default_size": {"x":340,"y":640},
+	    "min_size":{"x":340,"y":410}
+    },
+    "conversation_ui": {
+	    "main_ui_page":"../../src/html/pages/Dialog/DiscussWin.html",
+	    "default_size": {"x":640,"y":640},
+	    "min_size":{"x":410,"y":410}
+    }
+}

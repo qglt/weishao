@@ -1,0 +1,22 @@
+#pragma once
+#include <string>
+#include <boost/shared_ptr.hpp>
+#include <base/utility/singleton/singleton.hpp>
+
+namespace biz
+{
+	class file_sender;
+	class file_receiver;
+	class file_trans_mgr_impl
+	{
+	public:
+		file_trans_mgr_impl();
+		void send_file(boost::function<void()>send_cmd);
+		void receive_file(boost::function<void()>receive_cmd);
+
+	private:
+		boost::shared_ptr<file_sender> sender_;
+		boost::shared_ptr<file_receiver> receiver_;
+	};
+	typedef boost::utility::singleton_holder<file_trans_mgr_impl> ft_mgr;
+}

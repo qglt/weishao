@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project name="buildIPA" default="fullBuildRelease" basedir=".">
+<!--
+<project name="buildAPKBuilder" default="version" basedir=".">
+-->
+	<property file="productbuild.properties"/>
+	<property name="placeholder.version" value="[placeholder_version]"/>
+	<tstamp>
+		<format property="TODAY" pattern="MMdd" locale="en"/>
+	</tstamp>
+
+         <target name="preparebuild">
+
+		 <exec dir="${basedir}" executable="./preparebuild.sh" failonerror="true">
+
+
+                </exec>
+
+         </target>
+
+         <target name="makeipa">
+
+		 <exec dir="${basedir}/.." executable="./dailybuild.sh" failonerror="true">
+
+
+                </exec>
+
+         </target>
+	
+	
+         <target name="version">
+
+                <exec dir="${basedir}" executable="/bin/sh" failonerror="true" outputproperty="RealVersion">
+
+                        <arg value="-c"/>
+
+                        <arg value="svn info | grep 'Revision' | sed 's/Revision:\s*//g' | sed 's/^[^0-9]*//g' | sed 's/[\t\r\n\s]*$//g'"/>
+
+                </exec>
+
+	     <echo message="svn version:${RealVersion}" />
+         
+
+         </target>
+
+	 <target name="dailyversion" depends="version">
+		<property name="version.full" value="${version.major}.${version.minor}.${TODAY}.${RealVersion}"/>
+		<echo message="apk version: ${version.full}"/>
+	
+	 </target>
+
+	
+	<target name="replaceappname">
+	  <replace encoding="UTF-8" file="${dir.temp.whistle}/res/values/strings.xml" token="微哨_2013" value="${app.name}"/>
+	</target>
+	
+	
+	
+	<target name="updateVersion">
+	<!--
+		<property name="version.full" value="${version.major}.${version.minor}.${TODAY}.${RealVersion}"/>
+		-->
+		<echo message="current version is ${version.full}"/>
+		<replace file="${basedir}/../WhistleIm/WhistleIm-Info.plist" token="${placeholder.version}" value="${version.full}"/>
+	</target>
+
+	
+	<target name="fullBuildRelease" depends="preparebuild, dailyversion, updateVersion, makeipa ">
+	</target>
+	
+
+</project>

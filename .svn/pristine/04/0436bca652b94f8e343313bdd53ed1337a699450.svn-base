@@ -1,0 +1,108 @@
+
+/* manipulate blob datas
+
+sample 1. store and query blog data in memory.
+void       createdb()
+{
+	int ret;
+	sqlite3               *pdb = 0;
+	sqlite3_stmt      *stmt = 0;
+	char                  *error = 0;
+	char                  *sql = "insert into table1 values('value11',:aaa)";
+	int                     index;
+	static void          *value = "asdfadsfasdfjasdfjaksdfaskjdfakdsfaksfja";
+
+	ret = sqlite3_open("db1.sdb", &pdb);                    //打开数据库，跟打开文本文件一样
+	if( ret != SQLITE_OK )return;
+	ret = sqlite3_exec(pdb, "create table table1(col1 char(20), col2 BLOB)", 0,0, &error );
+	if( ret != SQLITE_OK )return;
+	ret = sqlite3_prepare(pdb, sql,strlen(sql), &stmt, &error);
+	if( ret != SQLITE_OK )return;
+	index = sqlite3_bind_parameter_index(stmt, ":aaa");
+	ret = sqlite3_bind_blob(stmt, index, value, strlen(value), SQLITE_STATIC);
+	if( ret != SQLITE_OK )return;
+	ret = sqlite3_step(stmt);
+	if( ret != SQLITE_DONE )return;
+	sqlite3_close(pdb);
+}
+void querydb()
+{
+	int                     ret;
+	sqlite3   *pdb = 0;
+	sqlite3_stmt      *pstmt = 0;
+	char      *error = 0;
+	char      *sql = "select * from table1";
+	int                     len;
+	int                     i;
+	char      *name;
+	void       *value;
+	ret = sqlite3_open("db1.sdb", &pdb);
+	if( ret != SQLITE_OK )return;
+	ret = sqlite3_prepare(pdb, sql, strlen(sql), &pstmt, &error);
+	if( ret != SQLITE_OK )return;
+	while( 1 )
+	{
+		ret = sqlite3_step(pstmt);
+		if( ret != SQLITE_ROW )break;
+		name = sqlite3_column_text(pstmt, 0);
+		value = sqlite3_column_blob(pstmt, 1);
+		len = sqlite3_column_bytes(pstmt,1 );
+	}
+}
+sample 2. store and query blog data from file.
+savetodb()
+{
+	sqlite3_stmt *stat;
+	sqlite3_exec(db, "CREATE TABLE list (fliename varchar(128) UNIQUE, fzip blob);", 0, 0, &zErrMsg);
+	sqlite3_prepare(db, "insert into list values ('mmmm.rar',?);", -1, &stat, 0);
+	FILE *fp;
+	long filesize = 0;
+	char * ffile;
+	fp = fopen("mmmm.rar", "rb");
+	if(fp != NULL)
+	{
+		//计算文件的大小
+		fseek(fp, 0, SEEK_END);
+		filesize = ftell(fp);
+		fseek(fp, 0, SEEK_SET);
+		//读取文件
+		ffile = new char[filesize+1];
+		size_t sz = fread(ffile, sizeof(char), filesize+1, fp);
+		fclose(fp);
+	}
+	//将文件数据绑定到insert语句中，替换“？”部分
+	sqlite3_bind_blob(stat, 1, ffile, filesize, NULL);
+	//执行绑定之后的SQL语句
+	sqlite3_step(stat);
+	这时数据库当中已经有了一条包含BLOB字段的数据。接下来我们要读取这条数据：
+	//选取该条数据
+	sqlite3_prepare(db, "select * from list;", -1, &stat, 0);
+	sqlite3_step(stat);
+	//得到纪录中的BLOB字段
+	const void * test = sqlite3_column_blob(stat, 1);
+	//得到字段中数据的长度
+	int size = sqlite3_column_bytes(stat, 1);
+	//拷贝该字段
+	sprintf(buffer2, "%s", test);
+	此时可以将buffer2写入到文件当中，至此BLOB数据处理完毕。
+}
+*/
+
+
+
+
+
+
+导出：
+sqlite file1.db .dump > dump-file
+导入：
+sqlite file2.db < dump-file
+
+导出：
+sqlite> .out file1.dump
+sqlite> select * from table1;
+导入：
+sqlite> .read file1.dump;
+
+
+

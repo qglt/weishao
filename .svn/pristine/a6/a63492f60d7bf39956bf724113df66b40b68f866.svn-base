@@ -1,0 +1,35 @@
+#include <deque>
+#include <base/tcpproactor/TcpProactor.h>
+#include "ft_mgr.h"
+
+namespace biz
+{
+	using namespace std;
+	class file_sender:public epius::proactor::tcp_proactor
+	{
+	public:
+		deque<string> sfile_name_deque;//发送文件列表
+	};
+	class file_receiver:public epius::proactor::tcp_proactor
+	{
+	public:
+		deque<string> rfile_name_deque;//接收文件列表
+	};
+
+
+	file_trans_mgr_impl::file_trans_mgr_impl():sender_(new file_sender),receiver_(new file_receiver)
+	{
+
+	}
+
+	void file_trans_mgr_impl::send_file( boost::function<void()>send_cmd )
+	{
+		sender_->post(send_cmd);
+	}
+
+	void file_trans_mgr_impl::receive_file( boost::function<void()>receive_cmd )
+	{
+		receiver_->post(receive_cmd);
+	}
+
+}

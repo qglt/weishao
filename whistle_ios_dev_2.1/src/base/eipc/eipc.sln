@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "eipc", "eipc\eipc.vcxproj", "{F69DA440-931F-4427-94AB-CEAD1B340C2D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_sender", "test\test_sender\test_sender.vcxproj", "{89354EEF-53A2-4606-A9CD-D6638D71F8D3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_recv", "test\test_recv\test_recv.vcxproj", "{AA0C91B0-3C3E-45C4-92E8-763538A032E9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F69DA440-931F-4427-94AB-CEAD1B340C2D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F69DA440-931F-4427-94AB-CEAD1B340C2D}.Debug|Win32.Build.0 = Debug|Win32
+		{F69DA440-931F-4427-94AB-CEAD1B340C2D}.Release|Win32.ActiveCfg = Release|Win32
+		{F69DA440-931F-4427-94AB-CEAD1B340C2D}.Release|Win32.Build.0 = Release|Win32
+		{89354EEF-53A2-4606-A9CD-D6638D71F8D3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{89354EEF-53A2-4606-A9CD-D6638D71F8D3}.Debug|Win32.Build.0 = Debug|Win32
+		{89354EEF-53A2-4606-A9CD-D6638D71F8D3}.Release|Win32.ActiveCfg = Release|Win32
+		{89354EEF-53A2-4606-A9CD-D6638D71F8D3}.Release|Win32.Build.0 = Release|Win32
+		{AA0C91B0-3C3E-45C4-92E8-763538A032E9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AA0C91B0-3C3E-45C4-92E8-763538A032E9}.Debug|Win32.Build.0 = Debug|Win32
+		{AA0C91B0-3C3E-45C4-92E8-763538A032E9}.Release|Win32.ActiveCfg = Release|Win32
+		{AA0C91B0-3C3E-45C4-92E8-763538A032E9}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

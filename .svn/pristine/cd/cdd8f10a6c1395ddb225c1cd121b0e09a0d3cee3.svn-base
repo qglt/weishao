@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 根据所在学院获取节点和用户. -->
+<!-- 如果组织架构没有变化, 返回的item为null, 并且last_time跟发出的last_time相同, 如果last_time跟客户端本地存储不同, 客户端应该更新本地缓存, 客户端仅在登录的时候, 或者手动刷新组织结构树 -->
+<iq id="s9Fg6-40" type="get" to="organization.ruijie.com.cn">
+  <query xmlns="http://ruijie.com.cn/membership" id="0" timestamp="2011-01-01 23:59:59">
+    <item type="organization">
+      <id />
+      <name />
+      <sort_string />
+    </item>
+    <item type="user">
+      <username/>
+      <name/>
+      <sex/>
+      <identity/>
+      <status/>
+    </item>
+  </query>
+</iq>
+<iq id="s9Fg6-40" type="result" to="organization.ruijie.com.cn">
+  <query xmlns="http://ruijie.com.cn/membership" id="0" timestamp="2011-01-01 23:59:59">
+    <item type="organization">
+      <id>1</id>
+      <name>美术学院</name>
+      <sort_string>1</sort_string>
+    </item>
+    <item type="user">
+      <username>wangqi</username>
+      <name>汪奇</name>
+      <sex>boy</sex>
+      <identity>teacher/student/other</identity>
+      <status>offline/online</status>
+    </item>
+  </query>
+</iq>
+<!-- 获取用于发送消息通知的组织几点. -->
+<iq id="s9Fg6-40" type="get" to="organization.ruijie.com.cn">
+  <query xmlns="http://ruijie.com.cn/notification" id="0" timestamp="2011-01-01 23:59:59">
+    <item type="organization">
+      <id />
+      <name />
+      <sort_string />
+    </item>
+  </query>
+</iq>
+<!-- 获取用于发送消息通知的组织架构 -->
+<iq id="s9Fg6-40" type="get" to="organization.ruijie.com.cn">
+  <query xmlns="http://ruijie.com.cn/notification" id="0" timestamp="2011-01-01 23:59:59">
+    <item type="organization">
+      <id>1</id>
+      <name>美术学院</name>
+      <sort_string>1</sort_string>
+    </item>
+  </query>
+</iq>

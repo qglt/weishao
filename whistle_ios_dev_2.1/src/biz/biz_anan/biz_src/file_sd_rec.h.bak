@@ -1,0 +1,95 @@
+#pragma once
+/*#include "stdlib.h"*/
+#include "anan_type.h"
+#include "anan_biz_bind.h"
+#include "client_anan.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <string>
+#include <fstream>
+#include <boost/signal.hpp>
+
+#include "gloox_src/siprofileft.h"
+#include "gloox_src/socks5bytestreamserver.h"
+#include "gloox_src/bytestreamdatahandler.h"
+#include "gloox_src/siprofilefthandler.h"
+#include "login_type.h"
+
+using namespace gloox;
+//文件过大将进行分块传输
+#define CHUNK_SIZE (64*1024) //分为64K块传输
+#define STOP_STATUS 0 //没有文件收发
+#define RUN_RECV  1 //接收文件
+#define RUN_SEND  2 //发送文件
+namespace biz
+{
+	struct anan_biz_impl;
+	class file_sd_rec : protected anan_biz_bind<anan_biz_impl>, public SIProfileFTHandler, public BytestreamDataHandler
+	{
+		BIZ_FRIEND();
+	public:
+		file_sd_rec(anan_biz_impl* parent);
+		~file_sd_rec();
+		//通知ui有文件传来
+		boost::signal<void(std::string)>rec_over_notify;
+		boost::signal<void(std::string)>send_over_notify;
+		//发送了多少数据块
+		boost::signal<void(int)>send_chunks_notify;
+		boost::signal<void(int)>recv_chunks_notify;
+		//SIProfileFTHandler
+		void handleFTRequest( const JID& from, const JID& to, const std::string& sid,
+			const std::string& name, long size, const std::string& hash,
+			const std::string& date, const std::string& mimetype,
+			const std::string& desc, int stypes );
+		void handleFTRequestError( const IQ& iq, const std::string& sid );
+		void handleFTBytestream( Bytestream* bs );
+		const std::string handleOOBRequestResult( const JID& from, const JID& to, const std::string& sid );
+		void set_file_store_path(std::string path);
+
+		//BytestreamDataHandler		
+		void handleBytestreamData( Bytestream* bs, const std::string& data );
+		void handleBytestreamError( Bytestream* bs, const IQ& iq );
+		void handleBytestreamOpen( Bytestream* bs );
+		void handleBytestreamClose( Bytestream* bs );
+		//
+		void init_sever();
+		void prepar_file(std::string to,std::string m_file);
+
+		void loop_send_file();
+		void loop_recv_file();
+		bool isend(Bytestream* m_bs);
+		void local_cancle_ft(const std::string sid);
+		//ui 通知是否要接收文件
+		void get_user_decision(bool ack,std::string from_,std::string name, std::string sid,  long size);
+		boost::function<void(std::string ,std::string ,std::string ,long, boost::function<void(bool)> callback)>answer_rec_cmd_;
+		std::string get_sent_percent(long file_size,long sent_size);
+	public:
+		//sid与对应的IO流
+		typedef std::map<std::string , std::fstream*> FILELIST;
+		std::string get_file_name(std::string file_path);
+	protected:
+		void _StateChanged( Tlogin_state old_s,Tlogin_state new_s, Tlogin_error err );
+				
+	private:
+		Client* client_;
+		SIProfileFT* f;
+		SOCKS5BytestreamServer* m_server;
+		bool m_quit;
+		//文件大小
+		long m_size;
+		long file_size[10];
+		//文件块数
+		long chunk_count;
+		
+		std::list < Bytestream * >bs_recvList;
+		std::list < Bytestream * >bs_sendList;
+		FILELIST rfilelist;
+		FILELIST sfilelist;
+		volatile int recvCount;
+		volatile int sendCount;
+		volatile int R_RUNNING;
+		volatile int S_RUNNING;
+		std::string file_store_path;
+	};
+}

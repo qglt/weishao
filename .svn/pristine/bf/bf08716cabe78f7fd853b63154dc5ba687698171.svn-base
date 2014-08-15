@@ -1,0 +1,4 @@
+1. 当前只包含对sqlite3的库。
+2. 将来应该包含oracle, mysql, firebird的库。
+3. 对象到epius_db 转换自动化过程。
+4. epius的性能优化。

@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="biz_src\notice_msg.xml">
+      <Filter>biz\obj\organization\notice_msg</Filter>
+    </None>
+    <None Include="biz_src\organization.xml">
+      <Filter>biz\obj\organization</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="biz_src\agent.cpp">
+      <Filter>biz\obj\agent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\third_party\sqlite\sqlite3.c">
+      <Filter>3rd\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\base\epiusdb\ep_sqlite.cpp">
+      <Filter>3rd\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\base\txtutil\txtutil.cpp">
+      <Filter>3rd\txtutil</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\anan_biz.cpp">
+      <Filter>biz\anan_biz</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\anan_biz_impl.cpp">
+      <Filter>biz\anan_biz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\base\universal_res\uni_res.cpp">
+      <Filter>biz\anan_biz</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\biz_message.cpp">
+      <Filter>biz\obj\common</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\client_anan.cpp">
+      <Filter>biz\obj\common</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\iq_filter.cpp">
+      <Filter>biz\obj\common</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\msg_extension.cpp">
+      <Filter>biz\obj\common</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\biz_sql.cpp">
+      <Filter>biz\obj\config</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\local_config.cpp">
+      <Filter>biz\obj\config</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\crowd_room.cpp">
+      <Filter>biz\obj\cvstion\crowd</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\muc_room.cpp">
+      <Filter>biz\obj\cvstion\muc</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\conversation.cpp">
+      <Filter>biz\obj\cvstion</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\conversation_impl.cpp">
+      <Filter>biz\obj\cvstion</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\message_event_filter.cpp">
+      <Filter>biz\obj\cvstion</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\login.cpp">
+      <Filter>biz\obj\login</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\notice_msg.cpp">
+      <Filter>biz\obj\organization\notice_msg</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\notice_msg_ack.cpp">
+      <Filter>biz\obj\organization\notice_msg</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\organization.cpp">
+      <Filter>biz\obj\organization</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\anan_private.cpp">
+      <Filter>biz\obj\private</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\pubsub.cpp">
+      <Filter>biz\obj\pubsub</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\biz_groups.cpp">
+      <Filter>biz\obj\roster\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\pin_yin_dict.cpp">
+      <Filter>biz\obj\roster\pinyin</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\biz_recent_contact.cpp">
+      <Filter>biz\obj\roster\recent</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\an_vcard.cpp">
+      <Filter>biz\obj\roster\vcard</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\wannianli.cpp">
+      <Filter>biz\obj\roster\vcard</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\an_roster_manager.cpp">
+      <Filter>biz\obj\roster</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\biz_presence.cpp">
+      <Filter>biz\obj\roster</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\user.cpp">
+      <Filter>biz\obj\user</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\base\cmd_factory\cmd_factory.cpp">
+      <Filter>biz\cmd_factory</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\anan_config.cpp">
+      <Filter>biz\configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\biz_lower.cpp">
+      <Filter>biz\biz_lower</Filter>
+    </ClCompile>
+    <ClCompile Include="biz_src\sqlite_connections.cpp">
+      <Filter>biz\obj\config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\base\module_path\file_manager.cpp">
+      <Filter>biz\anan_biz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\base\module_path\create_dir_nofailed.cpp">
+      <Filter>biz\anan_biz</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\base\epiusdb\ep_sqlite.h">
+      <Filter>3rd\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\base\txtutil\txtutil.h">
+      <Filter>3rd\txtutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\base\universal_res\uni_res.h">
+      <Filter>biz\anan_biz</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\agent.h">
+      <Filter>biz\obj\agent</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\agent_impl.h">
+      <Filter>biz\obj\agent</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\agent_type.h">
+      <Filter>biz\obj\agent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\third_party\sqlite\sqlite3.h">
+      <Filter>3rd\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\third_party\sqlite\sqlite3ext.h">
+      <Filter>3rd\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\third_party\libcurl\include\curl\curl.h">
+      <Filter>3rd\libcurl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\third_party\libcurl\include\curl\easy.h">
+      <Filter>3rd\libcurl</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\anan_biz_bind.h">
+      <Filter>biz\anan_biz</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\anan_biz.h">
+      <Filter>biz\anan_biz</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\anan_biz_impl.h">
+      <Filter>biz\anan_biz</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\anan_type.h">
+      <Filter>biz\anan_biz</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\anan_assert.h">
+      <Filter>biz\anan_biz</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_app_settings.h">
+      <Filter>biz\anan_biz</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\event_collection.h">
+      <Filter>biz\anan_biz</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_message.h">
+      <Filter>biz\obj\common</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\client_anan.h">
+      <Filter>biz\obj\common</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\common.h">
+      <Filter>biz\obj\common</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\iq_filter.h">
+      <Filter>biz\obj\common</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\msg_extension.h">
+      <Filter>biz\obj\common</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_sql.h">
+      <Filter>biz\obj\config</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\local_config_impl.h">
+      <Filter>biz\obj\config</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\local_config.h">
+      <Filter>biz\obj\config</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\crowd_room.h">
+      <Filter>biz\obj\cvstion\crowd</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\crowd_room_item.h">
+      <Filter>biz\obj\cvstion\crowd</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\muc_room.h">
+      <Filter>biz\obj\cvstion\muc</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\conversation.h">
+      <Filter>biz\obj\cvstion</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\conversation_impl.h">
+      <Filter>biz\obj\cvstion</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\conversation_type.h">
+      <Filter>biz\obj\cvstion</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\iq_tmp.h">
+      <Filter>biz\obj\cvstion</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\message_event_filter.h">
+      <Filter>biz\obj\cvstion</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\login.h">
+      <Filter>biz\obj\login</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\login_error.h">
+      <Filter>biz\obj\login</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\login_impl.h">
+      <Filter>biz\obj\login</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\login_type.h">
+      <Filter>biz\obj\login</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\notice_msg_impl.h">
+      <Filter>biz\obj\organization\notice_msg</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\notice_msg.h">
+      <Filter>biz\obj\organization\notice_msg</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\notice_msg_ack.h">
+      <Filter>biz\obj\organization\notice_msg</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\organization_impl.h">
+      <Filter>biz\obj\organization</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\organization.h">
+      <Filter>biz\obj\organization</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\anan_private.h">
+      <Filter>biz\obj\private</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\pubsub.h">
+      <Filter>biz\obj\pubsub</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\pubsub_impl.h">
+      <Filter>biz\obj\pubsub</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\pubsub_type.h">
+      <Filter>biz\obj\pubsub</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_groups.h">
+      <Filter>biz\obj\roster\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_groups_error.h">
+      <Filter>biz\obj\roster\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_groups_impl.h">
+      <Filter>biz\obj\roster\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_groups_type.h">
+      <Filter>biz\obj\roster\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\pin_yin_dict_impl.h">
+      <Filter>biz\obj\roster\pinyin</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\pin_yin_dict.h">
+      <Filter>biz\obj\roster\pinyin</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_recent_contact.h">
+      <Filter>biz\obj\roster\recent</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\an_vcard.h">
+      <Filter>biz\obj\roster\vcard</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\an_vcard_type.h">
+      <Filter>biz\obj\roster\vcard</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\wannianli.h">
+      <Filter>biz\obj\roster\vcard</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\an_roster_manager_type.h">
+      <Filter>biz\obj\roster</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\an_roster_manager.h">
+      <Filter>biz\obj\roster</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\an_roster_manager_error.h">
+      <Filter>biz\obj\roster</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\an_roster_manager_impl.h">
+      <Filter>biz\obj\roster</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_presence.h">
+      <Filter>biz\obj\roster</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_presence_type.h">
+      <Filter>biz\obj\roster</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\user.h">
+      <Filter>biz\obj\user</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\user_impl.h">
+      <Filter>biz\obj\user</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\user_type.h">
+      <Filter>biz\obj\user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\base\cmd_factory\cmd_factory.h">
+      <Filter>biz\cmd_factory</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\anan_config.h">
+      <Filter>biz\configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_lower.h">
+      <Filter>biz\biz_lower</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\biz_adapter.h">
+      <Filter>biz\biz_lower</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\sqlite_connections.h">
+      <Filter>biz\obj\config</Filter>
+    </ClInclude>
+    <ClInclude Include="biz_src\muc_room_item.h">
+      <Filter>biz\obj\cvstion\muc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\base\module_path\file_manager.h">
+      <Filter>biz\anan_biz</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\base\module_path\create_dir_nofailed.h">
+      <Filter>biz\anan_biz</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="biz">
+      <UniqueIdentifier>{d179cad7-d587-4388-8d8b-d5438bc3fae2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\anan_biz">
+      <UniqueIdentifier>{df486fe9-7b6a-43d2-9cf0-70567a78f4ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj">
+      <UniqueIdentifier>{208f9ecb-273b-4acf-a2d6-ea19c715d2fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\login">
+      <UniqueIdentifier>{eaffd35a-fa41-482c-85ca-b84d266cb002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\agent">
+      <UniqueIdentifier>{9f5ac588-b661-4bd9-afb5-356df0682b81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\cvstion">
+      <UniqueIdentifier>{9bfe5c4b-1838-45be-a454-a5fcff49f657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\pubsub">
+      <UniqueIdentifier>{c0cf711d-3327-4830-a2bf-c9dd3906a59b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\roster">
+      <UniqueIdentifier>{e3d0925c-8461-4fef-b9c9-a67f9c55947f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\user">
+      <UniqueIdentifier>{6bbf2e68-c806-4813-add7-5fd91289b4e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\private">
+      <UniqueIdentifier>{dcef295d-fac5-46c7-95e2-fe7814e2ba9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\cvstion\crowd">
+      <UniqueIdentifier>{e098f9a9-f9e6-4de0-8748-6b459be43eee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\cvstion\muc">
+      <UniqueIdentifier>{e6e9abdb-794d-4849-b1cc-7db85bd43baa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\roster\vcard">
+      <UniqueIdentifier>{d8b25e40-eeb9-4dfe-98c4-4935fcb1dbbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\roster\pinyin">
+      <UniqueIdentifier>{43be7ef2-923d-40c4-8c87-de3003e59197}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\organization">
+      <UniqueIdentifier>{d5c49561-c5f6-4c89-a86a-517f232d68f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\common">
+      <UniqueIdentifier>{6be0752e-62cc-4f6d-874e-4f22e913b2ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\organization\notice_msg">
+      <UniqueIdentifier>{d1196818-b8fb-4bfe-9d55-389b6f446bb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\roster\recent">
+      <UniqueIdentifier>{00f3233a-9b43-4b08-87eb-d156d9f4221a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd">
+      <UniqueIdentifier>{24175bb0-1e51-4c4a-b9b6-9bf49cf69fa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\sqlite">
+      <UniqueIdentifier>{ffc8f46c-d90e-4b13-b084-255fda5e8cc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\txtutil">
+      <UniqueIdentifier>{031010ad-520a-4223-a519-517e9638316c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\libcurl">
+      <UniqueIdentifier>{fbce6993-5025-43df-b0de-d26211215543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\config">
+      <UniqueIdentifier>{7381de0d-64e5-4549-89b8-85c599cfc3a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\obj\roster\groups">
+      <UniqueIdentifier>{f5f47f67-9c9f-4d09-8749-6f13b47b5a4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\cmd_factory">
+      <UniqueIdentifier>{fbc16ef5-2e29-49a8-a679-cd10d476703f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\biz_lower">
+      <UniqueIdentifier>{4d9dca92-81d4-4ca8-a82b-16672d0ecebe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="biz\configuration">
+      <UniqueIdentifier>{a4287b12-a300-4358-9744-799b2b223132}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
